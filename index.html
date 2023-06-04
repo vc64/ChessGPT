@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chess</title>
+    <link rel="stylesheet" href="css/chessboard-1.0.0.min.css">
+    <link rel="icon" type="image/x-icon" href="/img/horse.ico">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/chessboard-1.0.0.min.js"></script>
+  </head>
+  <body>
+    <style>
+      #game {
+        /* position: absolute; */
+        /* left: 35%; */
+        width: 40%;
+        /* height: 50%; */
+        display: block;
+        /* justify-content: center;
+        align-items: center;
+        align-self: center;
+        flex-direction: column; */
+        margin: 20pt auto;
+      }
+      #auxilary {
+        /* position: absolute; */
+        /* left: 35%; */
+        width: 100%;
+        min-width: 300pt;
+        display: inline-block;
+        text-align: center;
+        /* justify-content: center;
+        align-items: center;
+        align-self: center;
+        flex-direction: column; */
+        margin: auto;
+      }
+    </style>
+    <div id="game">
+      <div id="auxilary">
+      <div id="myBoard" style="min-width: 300pt; width: 100%;"></div>
+        <label>Status:</label>
+        <div id="status"></div>
+        <label>FEN:</label>
+        <div id="fen"></div>
+        <label>PGN:</label>
+        <div id="pgn"></div>
+
+        <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js" integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js" integrity="sha384-s3XgLpvmHyscVpijnseAmye819Ee3yaGa8NxstkJVyA6nuDFjt59u1QvuEl/mecz" crossorigin="anonymous"></script>
+        <button id="resetBtn">Reset</button>
+        <!-- <button id="clearBtn">Clear</button> -->
+
+        <script src="src/game.js"></script>
+      </div>
+    </div>
+    
+  </body>
+</html>
