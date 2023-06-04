@@ -101,12 +101,34 @@
 // NOTE: this example uses the chess.js library:
 // https://github.com/jhlywa/chess.js
 
+import { Chess } from 'chess.js'
+import { Configuration, OpenAIApi } from "openai";
+
+const configuration = new Configuration({
+	apiKey: "pk-WkiGNtobhmAHtydNHszJqnXsfyliGYdvRZRqRBudaBUGmPad",
+	basePath: "https://api.pawan.krd/v1/chat/completions",
+});
+const openai = new OpenAIApi(configuration);
+
 var board = null
 var game = new Chess()
 var $status = $('#status')
 var $fen = $('#fen')
 var $pgn = $('#pgn')
 var $chatgpt = $('#chatgpt')
+var move = 
+
+async function chatGPTMove() {
+  const response = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",
+    messages: [{ role: "user", content: ""}]
+  })
+  .then((res) => {
+    console.log(res.data.choices[0].message.content);
+    game.move(res.data.choices[0].message.content);
+  })
+}
+
 
 function onDragStart (source, piece, position, orientation) {
   // do not pick up pieces if the game is over
@@ -181,11 +203,22 @@ var config = {
 }
 board = Chessboard('myBoard', config)
 
-function start() {
+async function start() {
   board.start()
   game.reset()
   updateStatus()
+  console.log("hehe")
+  const response = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",
+    messages: [{ role: "user", content: "Let's play a game of chess. Here are the rules. We will take turns telling each other what move we make, in the form: piece, start position, end position. Once we start the game, only respond with the piece, start position, and end position, separated by commas. Do not respond with anything else."}]
+  })
+  .then((res) => {
+    console.log(res.data.choices[0].message.content);
+    console.log("hello");
+    // game.move(res.data.choices[0].message.content);
+  })
 }
+
 
 // $('#startBtn').on('click', board.start)
 $('#resetBtn').on('click', start)
