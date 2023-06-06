@@ -1,0 +1,12 @@
+.gioco .pawn.white {background-image:url('../img/piece/gioco/wP.svg')}
+.gioco .knight.white {background-image:url('../img/piece/gioco/wN.svg')}
+.gioco .bishop.white {background-image:url('../img/piece/gioco/wB.svg')}
+.gioco .rook.white {background-image:url('../img/piece/gioco/wR.svg')}
+.gioco .queen.white {background-image:url('../img/piece/gioco/wQ.svg')}
+.gioco .king.white {background-image:url('../img/piece/gioco/wK.svg')}
+.gioco .pawn.black {background-image:url('../img/piece/gioco/bP.svg')}
+.gioco .knight.black {background-image:url('../img/piece/gioco/bN.svg')}
+.gioco .bishop.black {background-image:url('../img/piece/gioco/bB.svg')}
+.gioco .rook.black {background-image:url('../img/piece/gioco/bR.svg')}
+.gioco .queen.black {background-image:url('../img/piece/gioco/bQ.svg')}
+.gioco .king.black {background-image:url('../img/piece/gioco/bK.svg')}

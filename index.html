@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Chess</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <link rel="stylesheet" href="../css/chessboard-1.0.0.min.css"> -->
     <!-- <link rel="icon" type="image/x-icon" href="src/img/horse.ico"> -->
     <!-- <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="src/js/chessboard-1.0.0.min.js"></script> -->
   </head>
   <body>
-    <style>
+    <!-- <style>
       #game {
         /* position: absolute; */
         /* left: 35%; */
@@ -34,25 +36,28 @@
         flex-direction: column; */
         margin: auto;
       }
-    </style>
-    <div id="game">
+    </style> -->
+    <!-- <div id="game">
       <div id="auxilary">
-      <div id="myBoard" style="min-width: 300pt; width: 100%;"></div>
-        <label>Status:</label>
-        <div id="status"></div>
-        <label>FEN:</label>
-        <div id="fen"></div>
-        <label>PGN:</label>
-        <div id="pgn"></div>
-
-        <!-- <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js" integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js" integrity="sha384-s3XgLpvmHyscVpijnseAmye819Ee3yaGa8NxstkJVyA6nuDFjt59u1QvuEl/mecz" crossorigin="anonymous"></script> -->
-        <button id="resetBtn">Reset</button>
-        <!-- <button id="clearBtn">Clear</button> -->
-
-        <!-- <script type="module" src="src/bundle.js"></script> -->
+      <div id="chessground" style="min-width: 300pt; width: 100%;"></div>
+      <div class="box">
+        <div class="main-board brown gioco my-2">
+          <Chessground />
+        </div>
       </div>
+      </div>
+    </div> -->
+    <div id="center">
+      <div class = "brown gioco" id="chessground">
+        <div id="chessground" class="cg-wrap"></div>
+      </div>
+      <label>Status:</label>
+      <div id="status"></div>
+      <!-- <label>FEN:</label>
+      <div id="fen"></div>
+      <label>PGN:</label>
+      <div id="pgn"></div> -->
+      <button id="resetBtn">Start/Reset</button>
     </div>
-    
   </body>
 </html>

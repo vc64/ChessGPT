@@ -1,6 +1,36 @@
-#myBoard {
-   margin: auto;
-   width: 50%;
-   border: 3px solid green;
-   padding: 10px;
- }
+#center {
+  /* position: absolute; */
+  /* left: 35%; */
+  /* width: 35%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  flex-direction: column;
+  /* margin: 20pt auto; */
+}
+
+#chessground {
+  /* width: 600px;
+  height: 600px; */
+  margin-bottom: 20px;
+}
+
+
+
+.brown {
+  background-image: url('../img/board/brown.svg');
+}
+
+.green .cg-wrap {
+  background-image: url('../img/board/green.svg');
+}
+
+.blue .cg-wrap {
+  background-image: url('../img/board/blue.svg');
+}
+
+body {
+  background-color:oldlace;
+  padding-top: 20px;
+}

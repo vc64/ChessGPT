@@ -1,0 +1,12 @@
+.neo .pawn.white {background-image:url('../img/piece/neo/wP.png')}
+.neo .knight.white {background-image:url('../img/piece/neo/wN.png')}
+.neo .bishop.white {background-image:url('../img/piece/neo/wB.png')}
+.neo .rook.white {background-image:url('../img/piece/neo/wR.png')}
+.neo .queen.white {background-image:url('../img/piece/neo/wQ.png')}
+.neo .king.white {background-image:url('../img/piece/neo/wK.png')}
+.neo .pawn.black {background-image:url('../img/piece/neo/bP.png')}
+.neo .knight.black {background-image:url('../img/piece/neo/bN.png')}
+.neo .bishop.black {background-image:url('../img/piece/neo/bB.png')}
+.neo .rook.black {background-image:url('../img/piece/neo/bR.png')}
+.neo .queen.black {background-image:url('../img/piece/neo/bQ.png')}
+.neo .king.black {background-image:url('../img/piece/neo/bK.png')}

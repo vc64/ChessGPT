@@ -1,0 +1,1 @@
+Let's play a game of chess! In this game, we will take turns saying our move, in the format: piece, start position, end position. Please separate the information only with a comma and do not say anything other than the three pieces of information I mentioned. I will tell you my first move once you confirm you understand.
