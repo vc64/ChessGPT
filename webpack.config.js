@@ -2,18 +2,18 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
-  devtool: 'inline-source-map',
-  devServer: {
-    static: './dist',
-  },
-  optimization: {
-    runtimeChunk: 'single',
-  },
-  entry: ['./src/game.js', './src/chessboard-1.0.0/chessboard-1.0.0.js'],
+  // mode: 'development',
+  // devtool: 'inline-source-map',
+  // devServer: {
+  //   static: './docs',
+  // },
+  // optimization: {
+  //   runtimeChunk: 'single',
+  // },
+  entry: ['./src/game.js'],
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'docs'),
     clean: true,
   },
   module: {
