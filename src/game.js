@@ -121,7 +121,7 @@ document.getElementById("resetBtn").addEventListener("click", game);
 const ground = Chessground(document.getElementById('chessground'), {viewOnly: true});
 
 const gpt_config = new Configuration({
-	apiKey: process.env.secret_key,
+	apiKey:  pk-WkiGNtobhmAHtydNHszJqnXsfyliGYdvRZRqRBudaBUGmPad,
 	basePath: "https://api.pawan.krd/v1",
 });
 
