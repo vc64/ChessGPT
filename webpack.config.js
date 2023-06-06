@@ -33,7 +33,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-        filename: "prod-index.html",
+        filename: "index.html",
         template: "index.html",
         favicon: "./src/img/horse.ico"
     })
