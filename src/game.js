@@ -111,6 +111,7 @@ import './css/neo.css';
 // import './css/theme.css';
 import './img/horse.ico';
 import './img/horse.ico';
+import logo from './img/gpt_logo.png';
 
 import { Chessground, Piece } from 'chessground';
 // const fs = require('fs');
@@ -118,6 +119,9 @@ const START_PROMPT = "Let's simulate playing a game of chess! In this game, we w
 // const CONFIRM = "will go first. Please confirm you understand.";
 
 document.getElementById("resetBtn").addEventListener("click", game);
+// document.getElementById("easyBtn").addEventListener("click", setEasy);
+document.getElementById("hardBtn").addEventListener("click", setHard);
+
 const ground = Chessground(document.getElementById('chessground'), {viewOnly: true});
 
 const gpt_config = new Configuration({
@@ -131,9 +135,16 @@ let gpt_color = 'n';
 let castling = ["K", "Q", "k", "q"];
 let enPassant = "-";
 let moves = [0,1];
+let temp = 1;
+let delay = 1200;
+
+const div = document.getElementById("gpt_logo");
+const gpt_logo = new Image();
+gpt_logo.src = logo;
+div.appendChild(gpt_logo);
 
 function game() {
-   document.getElementById("status").innerHTML = "";
+   document.getElementById("gpt_text").innerHTML = "";
    gpt_color = ['white', 'black'][Math.floor(Math.random() * 2)];
 
    const chess = new Chess();
@@ -166,8 +177,6 @@ function game() {
    } else {
       msg_hist = [{role: "user", content: START_PROMPT + " I will go first. Please confirm you understand."}];
       getChatGPTResponse().then(result => console.log(result));
-
-
    }
 
    // const chess = new Chess();
@@ -238,12 +247,20 @@ function updateSideData(chess, piece, orig, dest) {
       else if (piece.color === "b" && castling[2] !== "") {
          castling[2] = "";
       }
-   } else if (piece.type === "q") {
-      if (piece.color === "w" && castling[1] !== "") {
-         castling[1] = "";
+   } else if (piece.type === "r") {
+      if (piece.color === "w") {
+         if (castling[0] !== "" && orig === "h1") {
+            castling[0] = "";
+         } else if (castling[1] !== "" && orig === "a1") {
+            castling[1] = "";
+         }
       }
-      else if (piece.color === "b" && castling[3] !== "") {
-         castling[3] = "";
+      else {
+         if (castling[2] !== "" && orig === "h8") {
+            castling[2] = "";
+         } else if (castling[3] !== "" && orig === "a8") {
+            castling[3] = "";
+         }
       }
    } else if (piece.type === "p") {
       const rank = Number(dest.charAt(1));
@@ -300,9 +317,9 @@ function gameOver(cg, chess, override_white = false) {
    if (!chess.isCheckmate()) {
       winner = override_white ? 'white' : 'black';
    } else {
-      winner = toColor(chess, false);
+      winner = toColor(chess, true);
    }
-   document.getElementById('status').innerHTML = "Game Over: " + winner + " wins!";
+   document.getElementById('gpt_text').innerHTML = "Game Over: " + winner + " wins!";
 }
 
 function validMoves(chess) {
@@ -311,6 +328,40 @@ function validMoves(chess) {
       output.push(toPiece(move.piece)+ ", " + move.from + ", " + move.to);
    }
    return output.join("\n")
+}
+
+function updateText(text) {
+   document.getElementById("gpt_text").innerHTML = text;
+   // document.getElementById("gpt_text").classList.add('text-animate');
+   // setTimeout(()=>{
+   //    document.getElementById("gpt_text").classList.remove('text-animate');
+   // }, 50);
+}
+
+// function setEasy() {
+//    document.getElementById("easyBtn").classList.add('text-animate');
+//    if (element.classList.contains("myClass");)
+//    temp = 0.5;
+//    delay = 800;
+// }
+
+function setHard() {
+   const btn = document.getElementById("hardBtn");
+   const label = document.getElementById("diff_label");
+   if (btn.classList.contains('on')) {
+      btn.classList.remove('on');
+      label.innerHTML = "Difficulty: Easy";
+      // btn.innerHTML = "Difficulty: Easy";
+      temp = 0.3;
+      delay = 1200;
+   } else {
+      btn.classList.add('on');
+      temp = 1;
+      delay = 1200;
+      label.innerHTML = "Difficulty: Hard";
+   }
+
+   console.log(temp);
 }
 
 // function kingCheck(chess, piece, src, dest) {
@@ -348,8 +399,25 @@ function validMoves(chess) {
 function chessGPT(cg, chess) {
    return (orig, dest) => {
       const piece = toPiece(chess.get(orig).type);
+      
+      const opp_rank = gpt_color === "white" ? "1" : "8";
+      if (piece.charAt(0) === "p" && dest.charAt(1) === opp_rank) {
+         cg.setPieces(new Map([
+            [dest, {role: "queen", color: gpt_color === "white" ? "black" : "white"}]
+         ]));
+      }
+      
       updateSideData(chess, chess.get(orig), orig, dest);
-      chess.move({from: orig, to: dest});
+
+      cg.set({
+         turnColor: toColor(chess, true),
+      });
+   
+      let fen = cg.getFen();
+
+      chess.load(generateFen(fen, toColor(chess, true)));
+      // chess.move({from: orig, to: dest});
+      
       let msg = "";
       if (chess.isCheckmate()) {
          gameOver(cg, chess);
@@ -359,10 +427,10 @@ function chessGPT(cg, chess) {
          }
          msg_hist.push({role: "user", content: piece + ", " + orig + ", " + dest + msg});
          setTimeout(() => {
-            if (chess.turn() == gpt_color[0]) {
+            if (chess.turn() === gpt_color[0]) {
                getChatGPTResponse().then(result => performChatMove(cg, chess, result[0].toLowerCase(), result[1].toLowerCase(), result[2].toLowerCase()));
             }
-         }, 2000);
+         }, delay);
       }
    }
 }
@@ -376,6 +444,14 @@ function performChatMove(cg, chess, piece, src, dest) {
       [src, currPiece]
    ]));
    cg.move(src, dest);
+
+   const opp_rank = gpt_color === "white" ? "8" : "1";
+   if (piece.charAt(0) === "p" && dest.charAt(1) === opp_rank) {
+      cg.setPieces(new Map([
+         [dest, {role: "queen", color: gpt_color}]
+      ]));
+   }
+
    cg.set({
       turnColor: toColor(chess, true),
    });
@@ -421,11 +497,19 @@ function performChatMove(cg, chess, piece, src, dest) {
 async function getChatGPTResponse() {
    const response = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
-      messages: msg_hist
+      messages: msg_hist,
+      max_tokens: 15,
+      temperature: temp
    });
 
+   console.log(response.data.choices[0].message.content);
    msg_hist.push(response.data.choices[0].message);
-   return response.data.choices[0].message.content.match(/\w+/g);;
+   const output = response.data.choices[0].message.content.match(/\w+/g);
+   if (output === null) {
+      return "No valid response.";
+   }
+   updateText(response.data.choices[0].message.content);
+   return output
 }
 
 // from https://github.com/lichess-org/chessground-examples/blob/master/src/units/svg.ts

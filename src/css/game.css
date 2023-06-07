@@ -1,3 +1,244 @@
+@font-face {
+  font-family: 'FiraSansMed';
+  src: url('../font/FiraSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FiraSansReg';
+  src: url('../font/FiraSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+* {
+  font-family: 'FiraSansReg';
+  color: white;
+}
+
+/* intro screen */
+
+.intro {
+  position: fixed;
+  z-index: 11;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(10, 10, 10, 0.85);
+  opacity: 1;
+  transition: top 0.5s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-group {
+  z-index: 12;
+  position: relative;
+  /* top: 40%;
+  left: 50%; */
+  /* transform: translate(-50%, -50%); */
+  color: #ffffff;
+}
+
+.logo {
+  z-index: 12;
+  position: relative;
+  display: inline-block;
+  opacity: 0;
+  color: white;
+  font-family: 'FiraSansMed';
+}
+
+.logo.active {
+  opacity: 1;
+  transition: ease-in-out 0.5s;
+}
+
+.text.active {
+  opacity: 1;
+  transition: ease-in-out 0.8s;
+}
+
+#exitBtn.active {
+  opacity: 1;
+  transition: ease-in-out 0.8s;
+}
+
+.fade {
+  opacity: 0;
+  transition: ease-in-out 0.5s;
+}
+
+#exitBtn {
+  padding: 10px 60px;
+  background: white;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+  font-size: 22px;
+  font-family: 'FiraSansMed';
+  border-radius: 20px;
+  margin: 10px;
+  opacity: 0;
+  color: black;
+}
+
+.box {
+  width: 80%;
+  background: darkslateblue;
+  border-radius: 6px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 0 40px 5px;
+  color: white;
+}
+
+.header {
+  font-size: 20px;
+  margin-left: 15%;
+  margin-right: 15%;
+}
+/* 
+.instructions {
+  text-align: left;
+} */
+
+.text {
+  opacity: 0;
+  z-index: 12;
+  position: relative;
+  /* display: inline-block; */
+  /* opacity: 0; */
+  color: white;
+  font-family: 'FiraSansReg';
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
+
+
+/* game auxilary */
+
+.container-gpt img {
+  height: 40px;
+  /* width: 100%; */
+}
+
+.container-gpt {
+  /* margin: 10px 0px 20px 0px; */
+  display: grid;
+  grid-template-columns: 1fr 10fr;
+  grid-gap: 20px;
+  background: #303030;
+  border-radius: 10px;
+  position: relative;
+}
+
+.gpt-part {
+  /* display: inline-block; */
+  vertical-align: middle;
+  /* width: 100%;
+  height: 100%; */
+  margin: 10px;
+}
+
+#gpt_logo {
+  width: 20%;
+}
+
+#gpt_text {
+  width: 80%;
+  color: white;
+}
+
+.auxilary {
+  margin: 10px 0px 20px 0px;
+  display: flex;
+  /* display: inline-block; */
+  /* background: #303030;
+  border-radius: 10px; */
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  flex-direction: column; */
+}
+
+#resetBtn {
+  padding: 10px 10px;
+  background: darkslateblue;
+  color: white;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+  font-size: 22px;
+  border-radius: 10px;
+  margin: 0px 0px 0px 10px;
+  position: relative;
+  flex: 1;
+  width: 30%;
+}
+
+/* #gpt_text .text-animate {
+  width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid;
+  animation: typing;
+  animation-duration: 1.5s;
+  animation-timing-function: steps(30, end);
+  animation-fill-mode: forwards;
+}
+    
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+} */
+
+.buttons {
+  margin: 10px 0px 20px 0px;
+  display: flex;
+  /* display: inline-block; */
+  /* background: #303030;
+  border-radius: 10px; */
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  flex-direction: column; */
+}
+
+.diffBtn {
+  padding: 10px 10px;
+  background: #00A67E;
+  color: white;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+  font-size: 22px;
+  border-radius: 10px;
+  margin: 0px 0px 0px 10px;
+  position: relative;
+  flex: 1;
+  width: 30%;
+  transition: ease-in-out 0.3s;
+}
+
+.diffBtn.on {     
+  background-color:darkslateblue;
+  border: 5mm white;
+}
+
+
+
+/* game board*/
+
 #center {
   /* position: absolute; */
   /* left: 35%; */
@@ -7,13 +248,38 @@
   align-items: center;
   align-self: center;
   flex-direction: column;
-  /* margin: 20pt auto; */
+  /* left: 50%;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  margin-left: -10px;
+  margin-top: -10px; */
+  /* -1/2 height */
+}
+
+#container {
+  width: 480px;
+  padding: 10px 20px 10px 20px;
+  background-color: #101010;
+  border-radius: 10px;
+  margin-top: 3em;;
+  /* height: 480px; */
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  flex-direction: column; */
+}
+
+.game {
+  width: 100%;
+  aspect-ratio: 1/1;
+  margin-bottom: 30px;
 }
 
 #chessground {
-  /* width: 600px;
-  height: 600px; */
-  margin-bottom: 20px;
+  width: 100%;
+  /* height: 100%; */
 }
 
 
@@ -32,5 +298,101 @@
 
 body {
   background-color:oldlace;
-  padding-top: 20px;
+  padding-top: 0px;
+}
+
+a {
+  color: lightblue;
+}
+
+
+
+@media screen and (max-width: 550px) {
+  #container {
+    width: 340px; /* smaller board */
+  }
+
+  body {
+    background-color: #101010;
+  }
+
+  .box {
+    width: 80%;
+    padding: 0 20px 5px 20px;
+  }
+
+  .header {
+    font-size: 15px;
+    /* width: 70%; */
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: center;
+  }
+
+  .text {
+    font-size: 12px;
+    /* width: 70%; */
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: center;
+  }
+
+  .logo {
+    font-size: 35px;
+    
+  }
+
+  #exitBtn {
+    padding: 7px 40px;
+    font-size: 15px;
+    margin: 10px;
+  }
+
+  #container {
+    /* background-color: oldlace; */
+  }
+}
+
+@media screen and (min-height: 1000px) {
+  #container {
+    width: 680px; /* smaller board */
+    padding: 20px 40px 20px 40px;
+    border-radius: 20px;
+  }
+
+  body {
+    background-color: oldlace;
+  }
+
+  .box {
+    width: 80%;
+    padding: 0 20px 5px 20px;
+  }
+
+  .header {
+    font-size: 30px;
+    /* width: 70%; */
+    margin-left: 50px;
+    margin-right: 50px;
+    text-align: center;
+  }
+
+  .text {
+    font-size: 24px;
+    /* width: 70%; */
+    margin-left: 50px;
+    margin-right: 50px;
+    text-align: center;
+  }
+
+  .logo {
+    font-size: 70px;
+    
+  }
+
+  #exitBtn {
+    padding: 15px 80px;
+    font-size: 30px;
+    margin: 10px;
+  }
 }

@@ -1,6 +1,6 @@
 .cg-wrap {
-  width: 480px; /* only certain values work... 320 and 480 so far found*/
-  height: 480px;
+  width: 100%;/*480px;*/ /* only certain values work... 320 and 480 so far found*/
+  height: 100%; /*480px;*/
   position: relative;
   display: block;
 }
