@@ -510,12 +510,15 @@ async function getChatGPTResponse() {
          "Content-Type": "application/json",
        },
       body: JSON.stringify(msg_hist),
-      cache: 'default'
+      cache: 'default',
+      query: {
+         temperature: temp
+       }
    })).json()
 
    console.log(response);
 
-   const gpt_resp = JSON.parse(response.data.choices[0].message)
+   const gpt_resp = JSON.parse(response.data.choices[0].message).body.message
 
    console.log(gpt_resp.content);
    msg_hist.push(gpt_resp);
