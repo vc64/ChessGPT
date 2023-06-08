@@ -515,7 +515,7 @@ async function getChatGPTResponse() {
 
    console.log(response);
 
-   const gpt_resp = JSON.parse(response.data.choices[0].message).body.message
+   const gpt_resp = response.body.message
 
    console.log(gpt_resp.content);
    msg_hist.push(gpt_resp);
