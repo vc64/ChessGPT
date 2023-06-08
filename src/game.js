@@ -509,11 +509,8 @@ async function getChatGPTResponse() {
       headers: {
          "Content-Type": "application/json",
        },
-      body: JSON.stringify(msg_hist),
-      cache: 'default',
-      query: {
-         temperature: temp
-       }
+      body: JSON.stringify([temp, msg_hist]),
+      cache: 'default'
    })).json()
 
    console.log(response);
