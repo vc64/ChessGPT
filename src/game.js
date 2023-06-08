@@ -173,10 +173,10 @@ function game() {
 
    if (gpt_color === 'white') {
       ground.toggleOrientation();
-      msg_hist = [{role: "user", content: START_PROMPT + " You will go first."}];
+      msg_hist = [{role: "user", content: START_PROMPT + " You will go first and play as White."}];
       getChatGPTResponse(true).then(result => performChatMove(ground, chess, result[0].toLowerCase(), result[1].toLowerCase(), result[2].toLowerCase()));
    } else {
-      msg_hist = [{role: "user", content: START_PROMPT + " I will go first. Please confirm you understand."}];
+      msg_hist = [{role: "user", content: START_PROMPT + " I will go first. You will play as Black. Please confirm you understand."}];
       getChatGPTResponse(true).then(result => console.log(result));
    }
 
@@ -309,19 +309,55 @@ function generateFen(fen, color) {
    return [fen, color.charAt(0), castle, enPassant, moves[0], moves[1]].join(" ");
 }
 
-function gameOver(cg, chess, override_white = false) {
+// function gameOver(cg, chess, override_white = false) {
+//    cg.set({
+//       movable: {free: false}
+//    });
+
+//    let winner = "error";
+//    if (chess.isCheckmate()) {
+//       winner = toColor(chess, true);
+//    } else if (chess.isStalemate()) {
+
+//    }
+//    if (!chess.isCheckmate()) {
+//       winner = override_white ? 'white' : 'black';
+//    } else {
+//       winner = toColor(chess, true);
+//    }
+//    // document.getElementById('gpt_text').innerHTML = "Game Over: " + winner + " wins!";
+//    document.getElementById('hardBtn').disabled = false;
+//    let res_text = document.getElementById('result_text');
+//    res_text.innerHTML = winner.charAt(0).toUpperCase() + winner.slice(1) + " wins!";
+//    res_text.style.visibility = "visible";
+//    res_text.style.opacity = 1;
+//    setTimeout(()=>{
+//       res_text.style.opacity = 0;
+//       res_text.visibility = "hidden";
+//    }, 1750);
+// }
+
+function gameOver(cg, stale, color="none") {
    cg.set({
       movable: {free: false}
    });
 
    let winner = "error";
-   if (!chess.isCheckmate()) {
-      winner = override_white ? 'white' : 'black';
+   if (stale) {
+      winner = "No one ";
    } else {
-      winner = toColor(chess, true);
+      winner = color.charAt(0).toUpperCase() + color.slice(1);
    }
-   document.getElementById('gpt_text').innerHTML = "Game Over: " + winner + " wins!";
+
    document.getElementById('hardBtn').disabled = false;
+   let res_text = document.getElementById('result_text');
+   res_text.innerHTML = winner.charAt(0).toUpperCase() + winner.slice(1) + " wins!";
+   res_text.style.visibility = "visible";
+   res_text.style.opacity = 1;
+   setTimeout(()=>{
+      res_text.style.opacity = 0;
+      res_text.style.visibility = "hidden";
+   }, 1750);
 }
 
 function validMoves(chess) {
@@ -421,8 +457,8 @@ function chessGPT(cg, chess) {
       // chess.move({from: orig, to: dest});
       
       let msg = "";
-      if (chess.isCheckmate()) {
-         gameOver(cg, chess);
+      if (chess.isCheckmate() || chess.isStalemate()) {
+         gameOver(cg, chess.isStalemate(), toColor(chess, true));
       } else {
          if (chess.isCheck()) {
             msg = ". You are in check. Your valid moves are:\n" + validMoves(chess) + ". Please choose one, sticking to the exact format specified of piece, start position, end position";
@@ -461,7 +497,8 @@ function performChatMove(cg, chess, piece, src, dest) {
    let fen = cg.getFen();
 
    if ((fen.match(/k/g) || []).length !== 1 || (fen.match(/K/g) || []).length !== 1) {
-      gameOver(cg, chess, (fen.match(/k/g) || []).length !== 1);
+      // gameOver(cg, chess, (fen.match(/k/g) || []).length !== 1);
+      gameOver(cg, false, ((fen.match(/k/g) || []).length !== 1) ? "white" : "black");
       return;
    }
 
@@ -485,8 +522,8 @@ function performChatMove(cg, chess, piece, src, dest) {
 
    console.log(chess.ascii());
 
-   if (chess.isCheckmate()) {
-      gameOver(cg, chess);
+   if (chess.isCheckmate() || chess.isStalemate()) {
+      gameOver(cg, chess.isStalemate(), gpt_color);
    }
 
    // if (kingCheck(chess, piece, src, dest)) {
@@ -504,6 +541,15 @@ async function getChatGPTResponse() {
    //    temperature: temp
    // });
 
+   // const timeLimit = 8000;
+   
+   // let timeout;
+   // const timeoutPromise = new Promise((resolve, reject) => {
+   //       timeout = setTimeout(() => {
+   //          resolve(JSON.stringify({message: ""}));
+   //       }, timeLimit);
+   // });
+
    const response = (await fetch('https://4oqfislme54sl6hrpqsv2qaxce0hytob.lambda-url.us-east-1.on.aws/', {
       method: 'POST',
       headers: {
@@ -511,11 +557,29 @@ async function getChatGPTResponse() {
        },
       body: JSON.stringify([temp, msg_hist]),
       cache: 'default'
-   })).json()
+   }));
 
-   console.log(response);
+   // const response = await Promise.race([response_aws, timeoutPromise]);
+   // if(timeout){ //the code works without this but let's be safe and clean up the timeout
+   //       clearTimeout(timeout);
+   // }
 
-   const gpt_resp = JSON.parse(response.body).message
+   let responseJSON = "";
+
+   // if (response !== "Internal Server Error") {
+   //    responseJSON = await response.json();
+   // }
+   
+   try {
+      responseJSON = await response.json();
+   } catch (e) {
+      responseJSON = JSON.stringify({message: "I took too long. Your move!"});
+   }
+
+   console.log("hello");
+   console.log(responseJSON);
+
+   const gpt_resp = JSON.parse(responseJSON.message);
 
    console.log(gpt_resp.content);
    msg_hist.push(gpt_resp);

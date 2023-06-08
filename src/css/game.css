@@ -262,7 +262,7 @@
   padding: 10px 20px 10px 20px;
   background-color: #101010;
   border-radius: 10px;
-  margin-top: 3em;;
+  margin-top: 1em;
   /* height: 480px; */
   /* display: flex;
   justify-content: center;
@@ -275,10 +275,46 @@
   width: 100%;
   aspect-ratio: 1/1;
   margin-bottom: 30px;
+  position: relative;
 }
 
+.result {
+  background-color: rgba(53, 53, 53, 0.90);
+  color: white;
+  z-index: 14;
+  position: absolute;
+  /* top: 0; */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 150px;
+  border-radius: 10px;
+  font-size: 35px;
+  text-align: center;
+  font-family: 'FiraSansMed';
+  line-height: 150px;
+  visibility: hidden;
+  transition: opacity ease-in-out 1s;
+}
+
+/* .box {
+  width: 80%;
+  background: darkslateblue;
+  border-radius: 6px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 0 40px 5px;
+  color: white;
+} */
+
 #chessground {
+  /* top: 0; */
   width: 100%;
+  position: absolute;
   /* height: 100%; */
 }
 
@@ -348,14 +384,19 @@ a {
     margin: 10px;
   }
 
-  #container {
-    /* background-color: oldlace; */
+  .result {
+    top: 50%;
+    left: 50%;
+    width: 212px;
+    height: 106px;
+    font-size: 30px;
+    line-height: 106px;
   }
 }
 
 @media screen and (min-height: 1000px) {
   #container {
-    width: 680px; /* smaller board */
+    width: 680px; /* larger board */
     padding: 20px 40px 20px 40px;
     border-radius: 20px;
   }
@@ -394,5 +435,12 @@ a {
     padding: 15px 80px;
     font-size: 30px;
     margin: 10px;
+  }
+
+  .result {
+    width: 425px;
+    height: 212px;
+    font-size: 60px;
+    line-height: 212px;
   }
 }
