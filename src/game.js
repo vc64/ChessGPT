@@ -144,7 +144,8 @@ gpt_logo.src = logo;
 div.appendChild(gpt_logo);
 
 function game() {
-   document.getElementById("gpt_text").innerHTML = "";
+   document.getElementById("gpt_text").innerHTML = "[ChatGPT response will show up here]";
+   document.getElementById('hardBtn').disabled = true;
    gpt_color = ['white', 'black'][Math.floor(Math.random() * 2)];
 
    const chess = new Chess();
@@ -173,10 +174,10 @@ function game() {
    if (gpt_color === 'white') {
       ground.toggleOrientation();
       msg_hist = [{role: "user", content: START_PROMPT + " You will go first."}];
-      getChatGPTResponse().then(result => performChatMove(ground, chess, result[0].toLowerCase(), result[1].toLowerCase(), result[2].toLowerCase()));
+      getChatGPTResponse(true).then(result => performChatMove(ground, chess, result[0].toLowerCase(), result[1].toLowerCase(), result[2].toLowerCase()));
    } else {
       msg_hist = [{role: "user", content: START_PROMPT + " I will go first. Please confirm you understand."}];
-      getChatGPTResponse().then(result => console.log(result));
+      getChatGPTResponse(true).then(result => console.log(result));
    }
 
    // const chess = new Chess();
@@ -320,6 +321,7 @@ function gameOver(cg, chess, override_white = false) {
       winner = toColor(chess, true);
    }
    document.getElementById('gpt_text').innerHTML = "Game Over: " + winner + " wins!";
+   document.getElementById('hardBtn').disabled = false;
 }
 
 function validMoves(chess) {
@@ -495,20 +497,33 @@ function performChatMove(cg, chess, piece, src, dest) {
 }
 
 async function getChatGPTResponse() {
-   const response = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
-      messages: msg_hist,
-      max_tokens: 15,
-      temperature: temp
-   });
+   // const response = await openai.createChatCompletion({
+   //    model: "gpt-3.5-turbo",
+   //    messages: msg_hist,
+   //    max_tokens: 15,
+   //    temperature: temp
+   // });
 
-   console.log(response.data.choices[0].message.content);
-   msg_hist.push(response.data.choices[0].message);
-   const output = response.data.choices[0].message.content.match(/\w+/g);
+   const response = (await fetch('https://4oqfislme54sl6hrpqsv2qaxce0hytob.lambda-url.us-east-1.on.aws/', {
+      method: 'POST',
+      headers: {
+         "Content-Type": "application/json",
+       },
+      body: JSON.stringify(msg_hist),
+      cache: 'default'
+   })).json()
+
+   console.log(response);
+
+   const gpt_resp = JSON.parse(response.data.choices[0].message)
+
+   console.log(gpt_resp.content);
+   msg_hist.push(gpt_resp);
+   const output = gpt_resp.content.match(/\w+/g);
    if (output === null) {
       return "No valid response.";
    }
-   updateText(response.data.choices[0].message.content);
+   updateText(gpt_resp.content);
    return output
 }
 
