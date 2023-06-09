@@ -1,6 +1,6 @@
 # ChessGPT
 
-Ever wanted to play chess against ChatGPT? Try it here!
+Ever wanted to play chess against ChatGPT? Try it [here](https://vc64.github.io/ChessGPT/)!
 
 ## Rules and Directions:
 
