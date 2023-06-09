@@ -256,7 +256,7 @@ function chessGPT(cg, chess) {
    
       // load user move from chessground to chess.js using FEN, checking for change in king count beforehand
       let fen = cg.getFen();
-      if ((fen.match(/[kK]/g) || []).length !== 2) {
+      if ((fen.match(/k/g) || []).length !== 1 || (fen.match(/K/g) || []).length !== 1) {
          gameOver(cg, false, ((fen.match(/k/g) || []).length !== 1) ? "white" : "black");
          return;
       }
@@ -310,7 +310,7 @@ function performChatMove(cg, chess, piece, src, dest) {
    let fen = cg.getFen();
 
    // checking for king shenanigans
-   if ((fen.match(/[kK]/g) || []).length !== 2) {
+   if ((fen.match(/k/g) || []).length !== 1 || (fen.match(/K/g) || []).length !== 1) {
       gameOver(cg, false, ((fen.match(/k/g) || []).length !== 1) ? "white" : "black");
       return;
    }
