@@ -452,6 +452,11 @@ function chessGPT(cg, chess) {
       });
    
       let fen = cg.getFen();
+      if ((fen.match(/[kK]/g) || []).length !== 2) {
+         // gameOver(cg, chess, (fen.match(/k/g) || []).length !== 1);
+         gameOver(cg, false, ((fen.match(/k/g) || []).length !== 1) ? "white" : "black");
+         return;
+      }
 
       chess.load(generateFen(fen, toColor(chess, true)));
       // chess.move({from: orig, to: dest});
@@ -496,11 +501,17 @@ function performChatMove(cg, chess, piece, src, dest) {
 
    let fen = cg.getFen();
 
-   if ((fen.match(/k/g) || []).length !== 1 || (fen.match(/K/g) || []).length !== 1) {
+   if ((fen.match(/[kK]/g) || []).length !== 2) {
       // gameOver(cg, chess, (fen.match(/k/g) || []).length !== 1);
       gameOver(cg, false, ((fen.match(/k/g) || []).length !== 1) ? "white" : "black");
       return;
    }
+
+   // if ((fen.match(/k/g) || []).length !== 1 || (fen.match(/K/g) || []).length !== 1) {
+   //    // gameOver(cg, chess, (fen.match(/k/g) || []).length !== 1);
+   //    gameOver(cg, false, ((fen.match(/k/g) || []).length !== 1) ? "white" : "black");
+   //    return;
+   // }
 
    updateSideData(chess, piece, src, dest);
 

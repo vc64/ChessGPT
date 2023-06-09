@@ -104,10 +104,11 @@
   margin-left: 15%;
   margin-right: 15%;
 }
-/* 
-.instructions {
+
+li {
   text-align: left;
-} */
+  margin: 10px 0;
+}
 
 .text {
   opacity: 0;
