@@ -1,3 +1,5 @@
+/* Mostly code from chessground repo: https://github.com/lichess-org/chessground/blob/master/assets/chessground.base.css*/
+
 .cg-wrap {
   width: 100%;/*480px;*/ /* only certain values work... 320 and 480 so far found*/
   height: 100%; /*480px;*/

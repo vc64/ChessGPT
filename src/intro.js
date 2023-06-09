@@ -1,3 +1,5 @@
+// Great video by Conor Bailey, code based off his video: https://www.youtube.com/watch?v=2ak37WrbSDg
+
 let intro = document.querySelector(".intro");
 let exitBtn = document.querySelector("#exitBtn");
 let logoGroup = document.querySelectorAll(".logo");
@@ -16,21 +18,18 @@ window.addEventListener('DOMContentLoaded', ()=>{
     logoGroup.forEach((part, idx)=>{
       setTimeout(()=>{
         part.classList.remove('active');
-        // part.classList.add('fade');
       }, (idx+1) * 50);
     });
 
     instructions.forEach((part, idx)=>{
       setTimeout(()=>{
         part.classList.add('active');
-        // part.classList.add('fade');
       }, 1500);
     });
 
     instructions.forEach((part, idx)=>{
       setTimeout(()=>{
         part.classList.remove('active');
-        // part.classList.add('fade');
       }, 50);
     });
 
@@ -46,26 +45,15 @@ window.addEventListener('DOMContentLoaded', ()=>{
 
 
 exitBtn.onclick = function(e) {
-  //stop propagation of document click
-  e.stopPropagation()
-
   setTimeout(()=>{
-    // setTimeout(()=>{
-    //   exitBtn.classList.remove('active');
-    //   exitBtn.classList.add('fade');
-    // }, 100);
-
-    // logoGroup.forEach((part, idx)=>{
-    //   setTimeout(()=>{
-    //     part.classList.add('fade');
-    //   }, (idx+1) * 100);
-    // })
-    
+  
     setTimeout(()=>{
       intro.style.top = '-100vh';
     }, 100);
+  
     setTimeout(()=>{
       intro.style.visibility = 'hidden';
     }, 500);
+  
   });
 }

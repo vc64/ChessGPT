@@ -4,49 +4,8 @@
     <title>Chess</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link rel="stylesheet" href="../css/chessboard-1.0.0.min.css"> -->
-    <!-- <link rel="icon" type="image/x-icon" href="src/img/horse.ico"> -->
-    <!-- <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script src="src/js/chessboard-1.0.0.min.js"></script> -->
   </head>
   <body>
-    <!-- <style>
-      #game {
-        /* position: absolute; */
-        /* left: 35%; */
-        width: 35%;
-        display: block;
-        /* justify-content: center;
-        align-items: center;
-        align-self: center;
-        flex-direction: column; */
-        margin: 20pt auto;
-      }
-      #auxilary {
-        /* position: absolute; */
-        /* left: 35%; */
-        width: 100%;
-        /* height: 70%; */
-        min-width: 300pt;
-        display: inline-block;
-        text-align: center;
-        /* justify-content: center;
-        align-items: center;
-        align-self: center;
-        flex-direction: column; */
-        margin: auto;
-      }
-    </style> -->
-    <!-- <div id="game">
-      <div id="auxilary">
-      <div id="chessground" style="min-width: 300pt; width: 100%;"></div>
-      <div class="box">
-        <div class="main-board brown gioco my-2">
-          <Chessground />
-        </div>
-      </div>
-      </div>
-    </div> -->
     <div class="intro">
       <div class="box">
         <h1 class="logo-group">
@@ -61,14 +20,10 @@
           <li>ChatGPT's responses will be displayed at the top. ChatGPT loves telling people it won when it hasn't.</li>
           <li>If ChatGPT's response is not a formatted move, you get to move again.</li>
         </ol>
-        <!-- <p class="text instructions">Once you click start, you will be randomly assigned as White or Black. You must stick to the standard rules of chess, but ChatGPT does not.<br><br>You win if you checkmate ChatGPT or if ChatGPT changes how many Kings it has.<br></p> -->
         <button id="exitBtn">Good Luck!</button>
         <p class="text credits">Made by Victor Chen, see <a href="https://github.com/vc64/ChessGPT" target="_blank">repo</a> for credits</p>
       </div>
-
-      
     </div>
-
     <div id="center">
       <div id="container">
         <div class="auxilary">
@@ -84,16 +39,10 @@
         <div class="difficulty">
           <p id="diff_label">Difficulty: Easy</p>
           <div class="buttons">
-            <!-- <button class="diffBtn" id="easyBtn">Easy</button> -->
             <button class="diffBtn" id="hardBtn">Switch Difficulty</button>
             <button id="resetBtn">Play</button>
           </div>
         </div>
-        
-        <!-- <label>FEN:</label>
-        <div id="fen"></div>
-        <label>PGN:</label>
-        <div id="pgn"></div> -->
       </div>
     </div>
   </body>

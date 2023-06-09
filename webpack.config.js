@@ -1,7 +1,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+// build docs with 'npm run build'
 module.exports = {
+  // uncomment below for development server, which can be ran with 'npm run start'
   // mode: 'development',
   // devtool: 'inline-source-map',
   // devServer: {
@@ -37,8 +39,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-        filename: "index.html",
-        template: "index.html",
+        filename: "index.html", //output in docs
+        template: "index.html", //the root one, used as template
         favicon: "./src/img/horse.ico"
     })
   ]
