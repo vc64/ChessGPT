@@ -358,15 +358,14 @@ async function getChatGPTResponse() {
    try {
       responseJSON = await response.json();
    } catch (e) {
-      responseJSON = {message: JSON.stringify("I took too long. Your move!")};
+      responseJSON = {message: JSON.stringify({user: "assistant", content: "I took too long. Your move!"})};
    }
 
    let gpt_resp;
    if (typeof responseJSON.message === "undefined") {
-      gpt_resp = {message: "I took too long. Your move!"};
-   } else {
-      gpt_resp = JSON.parse(responseJSON.message);
+      responseJSON = {message: JSON.stringify({user: "assistant", content: "I took too long. Your move!"})};
    }
+   gpt_resp = JSON.parse(responseJSON.message);
 
    // add msg to hist, try to extract move info from msg with expectation of comma separated format
    msg_hist.push(gpt_resp);
