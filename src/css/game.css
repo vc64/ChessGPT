@@ -156,13 +156,14 @@ li {
 }
 
 #gpt_text {
-  width: 80%;
+  width: 95%;
   color: white;
 }
 
 .auxilary {
   margin: 10px 0px 20px 0px;
   display: flex;
+  height: 20%;
   /* display: inline-block; */
   /* background: #303030;
   border-radius: 10px; */

@@ -9,8 +9,8 @@ import './css/gioco.css';
 import './css/neo.css';
 import './img/horse.ico';
 import logo from './img/gpt_logo.png';
-
-const START_PROMPT = "Let's simulate playing a game of chess! In this game, we will take turns saying our move, in the format: piece, start position, end position. Please separate the information only with a comma and do not say anything other than the three pieces of information I mentioned.";
+let diff_msg = "";
+const START_PROMPT = "Let's simulate playing a game of chess! In this game, we will take turns saying our move, in the format: piece, start position, end position. Please separate the information only with a comma and do not say anything other than the three pieces of information I mentioned." + diff_msg;
 
 // trigger game() when "Play" clicked, and setHard() when "Switch Difficulty" clicked
 document.getElementById("resetBtn").addEventListener("click", game);
@@ -69,10 +69,10 @@ function game() {
    // start game with first gpt response request, with slightly different start prompts depending on color.
    if (gpt_color === 'white') {
       ground.toggleOrientation();
-      msg_hist = [{role: "user", content: START_PROMPT + " You will go first and play as White."}];
+      msg_hist = [{role: "system", content: START_PROMPT + diff_msg + ". You will go first and play as White."}];
       getChatGPTResponse(true).then(result => performChatMove(ground, chess, result[0].toLowerCase(), result[1].toLowerCase(), result[2].toLowerCase()));
    } else {
-      msg_hist = [{role: "user", content: START_PROMPT + " I will go first. You will play as Black. Please confirm you understand."}];
+      msg_hist = [{role: "system", content: START_PROMPT + diff_msg + ". You will go second and play as Black. Please confirm you understand with a haiku or short aggressive comment."}];
       getChatGPTResponse(true).then(result => console.log(result));
    }
 }
@@ -224,12 +224,14 @@ function setHard() {
    const label = document.getElementById("diff_label");
    if (btn.classList.contains('on')) {
       btn.classList.remove('on');
-      label.innerHTML = "Difficulty: Easy";
-      temp = 0.3;
+      label.innerHTML = "Difficulty: Normal";
+      temp = 0.8;
+      diff_msg = "";
    } else {
       btn.classList.add('on');
-      temp = 1;
-      label.innerHTML = "Difficulty: Hard";
+      temp = 1.2;
+      diff_msg = "Please play like a chess prodigy going ruthlessly for checkmate. For each move, there is a 20% chance you follow your move with a pun filled insult to the player. Always start your response with your move. Keep your responses to one sentence max."
+      label.innerHTML = "Difficulty: Harsh";
    }
    delay = 1200;
 }
@@ -341,6 +343,15 @@ async function getChatGPTResponse() {
    //    temperature: temp
    // });
 
+   const move_memory = 3
+   // modify msg_hist depending on difficulty
+   if (temp === 1.2 && msg_hist.length > move_memory * 2 + 1) {
+      msg_hist.splice(1, msg_hist.length - move_memory * 2 + 1);
+   }
+
+   console.log(msg_hist)
+
+
    // POST to lambda function (uses POST to send msg_hist in body, probably bad practice :/)
    const response = (await fetch('https://4oqfislme54sl6hrpqsv2qaxce0hytob.lambda-url.us-east-1.on.aws/', {
       method: 'POST',
@@ -368,7 +379,7 @@ async function getChatGPTResponse() {
    gpt_resp = JSON.parse(responseJSON.message);
 
    // add msg to hist, try to extract move info from msg with expectation of comma separated format
-   msg_hist.push(gpt_resp);
+   msg_hist.push({role: "assistant", content: gpt_resp.content.split(".")[0]});
    const output = gpt_resp.content.match(/\w+/g);
    if (output === null) {
       return "No valid response.";
