@@ -358,12 +358,12 @@ async function getChatGPTResponse() {
    try {
       responseJSON = await response.json();
    } catch (e) {
-      responseJSON = {message: JSON.stringify({user: "assistant", content: "I took too long. Your move!"})};
+      responseJSON = {message: JSON.stringify({role: "assistant", content: "I took too long. Your move!"})};
    }
 
    let gpt_resp;
    if (typeof responseJSON.message === "undefined") {
-      responseJSON = {message: JSON.stringify({user: "assistant", content: "I took too long. Your move!"})};
+      responseJSON = {message: JSON.stringify({role: "assistant", content: "I took too long. Your move!"})};
    }
    gpt_resp = JSON.parse(responseJSON.message);
 
