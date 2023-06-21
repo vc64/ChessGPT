@@ -26,6 +26,8 @@ For fun, here's a small recap:
 * Played around with game, added difficulty modes based on temperature of ChatGPT response, 
 * Began making AWS lambda function for API calls, struggled to figure out how to secure API key and how to get AWS lambda to work (CORS, no API gateway, programming lambda function handler, etc.).
 * Fixing bugs, adding stalemate detection, fixing king detection, and trying to fix timeout issue from openAI API (not sure if current fix works).
+* Finalized fixes to timeout issue from openAI, grants free move to player
+* Changed difficulty levels to Normal and Harsh, where focus is less about response temperature and more about memory (chat history gets regularly cleaned for Harsh, should technically make it harder as chatgpt forgets what is on the board and therefore makes more illegal moves?)
 
 ## Future Thoughts
 
